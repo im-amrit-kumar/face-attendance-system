@@ -2,9 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
-# =====================================================
 # PATH SETUP
-# =====================================================
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
@@ -12,9 +10,7 @@ ATTENDANCE_FILE = os.path.join(DATA_DIR, "attendance.csv")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# =====================================================
-# MARK ATTENDANCE FUNCTION (FULLY FIXED)
-# =====================================================
+# MARK ATTENDANCE FUNCTION
 
 def mark_attendance(name):
     today = datetime.now().strftime("%Y-%m-%d")
@@ -40,9 +36,8 @@ def mark_attendance(name):
     # Get today's record for this user
     user_today = df[(df["Name"] == name) & (df["Date"] == today)]
 
-    # -------------------------------
     # PUNCH IN (first appearance)
-    # -------------------------------
+    
     if user_today.empty:
         new_row = pd.DataFrame([{
             "Name": name,
@@ -55,9 +50,8 @@ def mark_attendance(name):
         print(f"✅ PUNCH IN recorded: {name} at {current_time}")
         return "PUNCH IN"
 
-    # -------------------------------
     # PUNCH OUT (return after leaving)
-    # -------------------------------
+    
     idx = user_today.index[0]
     punch_out_value = str(df.at[idx, "Punch Out"]).strip()
     
@@ -75,8 +69,7 @@ def mark_attendance(name):
         
         return "PUNCH OUT"
 
-    # -------------------------------
     # ALREADY MARKED (both times exist)
-    # -------------------------------
+    
     print(f"⚠️ Already marked: Punch In={df.at[idx, 'Punch In']}, Punch Out={punch_out_value}")
     return "ALREADY MARKED"
