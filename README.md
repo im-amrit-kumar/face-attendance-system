@@ -134,7 +134,7 @@ The system uses color-coded bounding boxes to show attendance status:
 | Status | Color | Meaning |
 |--------|-------|---------|
 | **PUNCH IN** | Green | User detected for the first time today |
-| **IN FRAME** | Orange | User is currently present (already punched in) |
+| **IN FRAME** | Blue | User is currently present (already punched in) |
 | **PUNCH OUT** | Red | User returned after leaving (punch out recorded) |
 | **ATTENDANCE COMPLETE** | Gray | Both punch in and out recorded for today |
 
