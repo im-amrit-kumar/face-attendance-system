@@ -6,17 +6,12 @@ import os
 
 from attendance import mark_attendance
 
-# =====================================================
 # PATH SETUP
-# =====================================================
-
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENCODINGS_PATH = os.path.join(PROJECT_ROOT, "encodings", "face_encodings.pkl")
 
-# =====================================================
-# LOAD ENCODINGS
-# =====================================================
 
+# LOAD ENCODINGS
 with open(ENCODINGS_PATH, "rb") as f:
     data = pickle.load(f)
 
@@ -28,20 +23,15 @@ for user in data.values():
         known_encodings.append(enc)
         known_names.append(user["name"])
 
-# =====================================================
-# STATE TRACKING
-# =====================================================
 
+# STATE TRACKING
 # name -> state: NOT_SEEN | PUNCHED_IN | LEFT | PUNCHED_OUT
 state = {}
 
 # Track last action to avoid duplicate marks
 last_action = {}
 
-# =====================================================
 # CAMERA
-# =====================================================
-
 cap = cv2.VideoCapture(0)
 print("🎥 Attendance system started (press q to quit)")
 print("📋 Instructions:")
@@ -68,10 +58,7 @@ while True:
             name = known_names[index]
             detected_names.add(name)
 
-            # ==========================================
             # STATE MACHINE LOGIC
-            # ==========================================
-            
             # FIRST TIME SEEN → PUNCH IN
             if name not in state:
                 status = mark_attendance(name)
@@ -98,10 +85,7 @@ while True:
             else:
                 status = last_action.get(name, "UNKNOWN")
 
-            # ==========================================
             # DISPLAY
-            # ==========================================
-            
             label = f"{name} - {status}"
             
             # Color coding
@@ -123,10 +107,7 @@ while True:
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2
             )
 
-    # ==========================================
-    # DETECT WHO LEFT THE FRAME
-    # ==========================================
-    
+    # DETECT WHO LEFT THE FRAME    
     for name in list(state.keys()):
         # Only mark as LEFT if they were PUNCHED_IN and now not detected
         if state[name] == "PUNCHED_IN" and name not in detected_names:
