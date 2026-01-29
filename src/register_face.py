@@ -3,10 +3,7 @@ import face_recognition
 import pickle
 import os
 
-# =====================================================
-# ABSOLUTE PROJECT PATH (NO RELATIVE PATH ISSUES)
-# =====================================================
-
+# ABSOLUTE PROJECT PATH:
 # Path to project root (face_attendence_system)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,16 +20,13 @@ print("PROJECT_ROOT:", PROJECT_ROOT)
 print("ENCODINGS_DIR:", ENCODINGS_DIR)
 print("ENCODINGS_PATH:", ENCODINGS_PATH)
 
-# =====================================================
-# USER INPUT
-# =====================================================
 
+# USER INPUT
 user_name = input("Enter Name: ").strip()
 user_id = input("Enter ID: ").strip()
 
-# =====================================================
+
 # LOAD EXISTING DATA (IF ANY)
-# =====================================================
 
 if os.path.exists(ENCODINGS_PATH):
     with open(ENCODINGS_PATH, "rb") as f:
@@ -40,14 +34,12 @@ if os.path.exists(ENCODINGS_PATH):
 else:
     data = {}
 
-# =====================================================
+
 # FACE CAPTURE
-# =====================================================
 
 cap = cv2.VideoCapture(0)
 encodings = []
 count = 0
-
 print("📸 Look at the camera... Capturing face samples")
 
 while count < 20:
@@ -73,9 +65,8 @@ while count < 20:
 cap.release()
 cv2.destroyAllWindows()
 
-# =====================================================
+
 # SAVE ENCODINGS
-# =====================================================
 
 data[user_id] = {
     "name": user_name,
